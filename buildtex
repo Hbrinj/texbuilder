@@ -1,0 +1,25 @@
+#!/bin/bash
+
+buildfile='texbuild.t'
+function readfile() {
+    file=$buildfile
+    OLDIFS=$IFS
+    IFS=$'\n'
+
+    texfiles=""
+    for line in $(cat $file)
+    do
+        texfiles=$texfiles" "$line
+    done
+    IFS=$OLDIFS
+    echo $texfiles
+}
+
+function build() {
+    file=$1
+    cd $file
+    args=$(readfile $file)
+    pdflatex $args
+}
+
+build $1
